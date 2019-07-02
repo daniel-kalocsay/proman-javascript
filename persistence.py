@@ -1,4 +1,5 @@
 import csv
+import database_connection
 
 STATUSES_FILE = './data/statuses.csv'
 BOARDS_FILE = './data/boards.csv'
@@ -35,8 +36,8 @@ def _get_data(data_type, file, force):
 
 
 def clear_cache():
-    for k in list(_cache.keys()):
-        _cache.pop(k)
+    for key in list(_cache.keys()):
+        _cache.pop(key)
 
 
 def get_statuses(force=False):

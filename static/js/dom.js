@@ -31,12 +31,15 @@ export let dom = {
         // it adds necessary event listeners also
 
         let boardList = '';
+        console.log(boards);
 
         for(let board of boards){
             boardList += `
                 <li>${board.title}</li>
             `;
         }
+
+        document.querySelector('#boards').textContent = '';
 
         const outerHtml = `
             <ul class="board-container">
