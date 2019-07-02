@@ -48,3 +48,15 @@ create unique index if not exists cards_id_uindex
 
 create unique index if not exists statuses_id_uindex
 	on statuses (id);
+
+INSERT INTO statuses (title)
+VALUES ('New');
+
+INSERT INTO statuses (title)
+VALUES ('In progress');
+
+INSERT INTO statuses (title)
+VALUES ('Testing');
+
+INSERT INTO statuses (title)
+VALUES ('Done');
