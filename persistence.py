@@ -22,6 +22,7 @@ def get_data_from_table(cursor, table_name):
 
     return result
 
+
 def _read_csv(file_name):
     """
     Reads content of a .csv file
