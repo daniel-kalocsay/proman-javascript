@@ -11,8 +11,8 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    return render_template('index.html')
-    # return render_template('design.html')  // renders pre-made html
+    #return render_template('index.html')
+    return render_template('design.html')
 
 
 @app.route("/get-boards")
