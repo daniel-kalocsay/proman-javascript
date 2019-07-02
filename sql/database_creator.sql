@@ -6,7 +6,7 @@ create table if not exists boards
 	title varchar
 );
 
-alter table boards owner to dani;
+alter table boards owner to attila;
 
 create unique index if not exists boards_id_uindex
 	on boards (id);
@@ -22,7 +22,7 @@ create table if not exists statuses
 	title varchar
 );
 
-alter table statuses owner to dani;
+alter table statuses owner to attila;
 
 create table if not exists cards
 (
@@ -41,7 +41,7 @@ create table if not exists cards
 	"order" integer default 0 not null
 );
 
-alter table cards owner to dani;
+alter table cards owner to attila;
 
 create unique index if not exists cards_id_uindex
 	on cards (id);

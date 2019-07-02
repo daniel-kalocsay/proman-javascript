@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for
 from util import json_response
 
-import data_handler
+import data_handler, persistence
 
 app = Flask(__name__)
 
@@ -20,7 +20,9 @@ def get_boards():
     """
     All the boards
     """
-    return data_handler.get_boards()
+    return persistence.get_data_from_table('statuses')
+
+    #return data_handler.get_boards()
 
 
 @app.route("/get-cards/<int:board_id>")

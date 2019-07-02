@@ -1,5 +1,6 @@
 import csv
 import database_connection
+from psycopg2 import sql
 
 STATUSES_FILE = './data/statuses.csv'
 BOARDS_FILE = './data/boards.csv'
@@ -7,6 +8,19 @@ CARDS_FILE = './data/cards.csv'
 
 _cache = {}  # We store cached data in this dict to avoid multiple file readings
 
+
+@database_connection.connection_handler
+def get_data_from_table(cursor, table_name):
+    sql_query = """
+                SELECT * FROM {table_name};
+                """
+
+    sql_query = sql.SQL(sql_query).format(table_name=sql.Identifier(table_name))
+
+    cursor.execute(sql_query, {'table_name': table_name})
+    result = cursor.fetchall()
+
+    return result
 
 def _read_csv(file_name):
     """
