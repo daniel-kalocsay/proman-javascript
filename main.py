@@ -33,7 +33,8 @@ def get_cards_for_board(board_id: int):
     :param board_id: id of the parent board
     """
 
-    #return persistence.get_cards_by_board_id(board_id)
+    return persistence.get_cards_by_board_id(board_id)
+
 
 @app.route("/get-all-cards")
 @json_response
