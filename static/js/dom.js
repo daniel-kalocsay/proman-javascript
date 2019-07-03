@@ -27,10 +27,10 @@ export let dom = {
 
         });
     },
-    loadCards: function () {
+    loadCards: function (board_id) {
         // retrieves boards and makes showBoards called
         dataHandler.getAllCards(function (cards) {
-            dom.showCards(cards);
+            dom.showCards(cards, board_id);
         });
     },
     showBoards: function (boards) {
@@ -38,14 +38,15 @@ export let dom = {
 
         // shows boards appending them to #boards div
         dom.loadCards();
+
         const boardsTemplate = document.querySelector('#board-template');
-        const clone = document.importNode(boardsTemplate.content, true);
-        clone.querySelector('.board-title').textContent = boards[0].title;
-        document.querySelector('.board-container').appendChild(clone);
-
-
+        for (let board of boards) {
+            const clone = document.importNode(boardsTemplate.content, true);
+            clone.querySelector('.board-title').textContent = board.title;
+            document.querySelector('.board-container').appendChild(clone);
+        }
     },
-    showCards: function (cards) {
+    showCards: function (cards, board_id) {
         // shows the cards of a board
         // it adds necessary event listeners also
         const cardTemplate = document.querySelector('#card-template');
