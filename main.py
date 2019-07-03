@@ -20,7 +20,6 @@ def get_boards():
     """
     All the boards
     """
-    print(persistence.get_data_from_table('boards'))
     return persistence.get_data_from_table('boards')
 
     # return data_handler.get_boards()
@@ -33,7 +32,15 @@ def get_cards_for_board(board_id: int):
     All cards that belongs to a board
     :param board_id: id of the parent board
     """
-    return data_handler.get_cards_for_board(board_id)
+
+    #return persistence.get_cards_by_board_id(board_id)
+
+@app.route("/get-all-cards")
+@json_response
+def get_all_cards():
+    """all the cards"""
+
+    return persistence.get_all_cards()
 
 
 def main():

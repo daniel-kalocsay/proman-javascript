@@ -32,3 +32,18 @@ def get_data_from_table(cursor, table_name):
     result = cursor.fetchall()
 
     return result
+
+
+@database_connection.connection_handler
+def get_all_cards(cursor):
+    sql_query = """
+                SELECT * FROM cards;
+                """
+
+
+    cursor.execute(sql_query)
+    result = cursor.fetchall()
+
+    return result
+
+
