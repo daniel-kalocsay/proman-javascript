@@ -34,10 +34,11 @@ export let dom = {
 
         const boardsTemplate = document.querySelector('#board-template');
         for (let board of boards) {
-            dom.loadCards(board.id);
             const clone = document.importNode(boardsTemplate.content, true);
             clone.querySelector('.board-title').textContent = board.title;
+            clone.querySelector('.board').setAttribute('id', `board-${board.id}`);
             document.querySelector('.board-container').appendChild(clone);
+            dom.loadCards(board.id);
         }
     },
 
@@ -53,16 +54,17 @@ export let dom = {
         // it adds necessary event listeners also
         const cardTemplate = document.querySelector('#card-template');
         for (let card of cards) {
+            const currentBoard = document.querySelector(`#board-${card.board_id}`);
             const clone = document.importNode(cardTemplate.content, true);
             clone.querySelector('.card-title').textContent = card.title;
             if (card.status_id === 1) {
-                document.querySelector('.new').appendChild(clone);
+                currentBoard.querySelector('.new').appendChild(clone);
             } else if (card.status_id === 2) {
-                document.querySelector('.in-progress').appendChild(clone);
+                currentBoard.querySelector('.in-progress').appendChild(clone);
             } else if (card.status_id === 3) {
-                document.querySelector('.testing').appendChild(clone);
+                currentBoard.querySelector('.testing').appendChild(clone);
             } else if (card.status_id === 4) {
-                document.querySelector('.done').appendChild(clone);
+                currentBoard.querySelector('.done').appendChild(clone);
             }
         }
     }
