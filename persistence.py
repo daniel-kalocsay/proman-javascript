@@ -47,3 +47,13 @@ def get_all_cards(cursor):
     return result
 
 
+@database_connection.connection_handler
+def get_cards_by_board_id(cursor, board_id):
+    sql_query = """
+                SELECT * FROM cards
+                WHERE board_id = %(board_id)s
+                """
+    cursor.execute(sql_query, {'board_id': board_id})
+    return cursor.fetchall()
+
+

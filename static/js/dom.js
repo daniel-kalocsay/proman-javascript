@@ -14,39 +14,41 @@ export let dom = {
                 elementToExtend.appendChild(childNode);
             }
         }
-
         return elementToExtend.lastChild;
     },
+
     init: function () {
         // This function should run once, when the page is loaded.
     },
+
     loadBoards: function () {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
+        });
+    },
 
-        });
-    },
-    loadCards: function (board_id) {
-        // retrieves boards and makes showBoards called
-        dataHandler.getAllCards(function (cards) {
-            dom.showCards(cards, board_id);
-        });
-    },
     showBoards: function (boards) {
         // it adds necessary event listeners also
-
         // shows boards appending them to #boards div
-        dom.loadCards();
 
         const boardsTemplate = document.querySelector('#board-template');
         for (let board of boards) {
+            dom.loadCards(board.id);
             const clone = document.importNode(boardsTemplate.content, true);
             clone.querySelector('.board-title').textContent = board.title;
             document.querySelector('.board-container').appendChild(clone);
         }
     },
-    showCards: function (cards, board_id) {
+
+    loadCards: function (board_id) {
+        // retrieves boards and makes showBoards called
+        dataHandler.getCardsByBoardId(board_id,function (cards) {
+            dom.showCards(cards);
+        });
+    },
+
+    showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
         const cardTemplate = document.querySelector('#card-template');
@@ -65,4 +67,4 @@ export let dom = {
         }
     }
 };
-// here comes more features
+
