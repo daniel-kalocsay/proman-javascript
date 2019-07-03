@@ -57,3 +57,12 @@ def get_cards_by_board_id(cursor, board_id):
     return cursor.fetchall()
 
 
+@database_connection.connection_handler
+def rename_board(cursor, new_title, board_id):
+    sql_query = """
+                UPDATE boards
+                SET title = %(new_title)s
+                WHERE id = %(board_id)s
+                """
+    cursor.execute(sql_query, {'new_title': new_title, 'board_id': board_id})
+
