@@ -26,19 +26,54 @@ export let dom = {
             dom.showBoards(boards);
         });
     },
-    showBoards: function (boards) {
-        // shows boards appending them to #boards div
-        // it adds necessary event listeners also
+showBoards: function (boards) {
+    // it adds necessary event listeners also
 
+    // shows boards appending them to #boards div
         let boardList = '';
         console.log(boards);
+
+        const boardsTemplate = document.querySelector('#board-template');
+        const clone = document.importNode(boardsTemplate.content, true);
+        clone.querySelector('.board-title').textContent = boards[0].title;
+        document.querySelector('.board-container').appendChild(clone);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         for(let board of boards){
             boardList += `
                 <li>${board.title}</li>
             `;
         }
-
+        console.log(boardList);
         document.querySelector('#boards').textContent = '';
 
         const outerHtml = `

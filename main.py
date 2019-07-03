@@ -11,9 +11,7 @@ def index():
     """
     This is a one-pager which shows all the boards and cards
     """
-    boards = get_boards()
-    #return render_template('index.html')
-    return render_template('design.html', boards=boards)
+    return render_template('design.html')
 
 
 @app.route("/get-boards")
@@ -22,6 +20,7 @@ def get_boards():
     """
     All the boards
     """
+    print(persistence.get_data_from_table('boards'))
     return persistence.get_data_from_table('boards')
 
     # return data_handler.get_boards()
