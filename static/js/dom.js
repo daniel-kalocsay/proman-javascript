@@ -37,35 +37,22 @@ export let dom = {
             // it adds necessary event listeners also
 
             // shows boards appending them to #boards div
-            let boardList = '';
-            console.log(boards);
-
+            dom.loadCards();
             const boardsTemplate = document.querySelector('#board-template');
             const clone = document.importNode(boardsTemplate.content, true);
             clone.querySelector('.board-title').textContent = boards[0].title;
             document.querySelector('.board-container').appendChild(clone);
 
 
-            for (let board of boards) {
-                boardList += `
-                    <li>${board.title}</li>
-                `;
-            }
-            console.log(boardList);
-            document.querySelector('#boards').textContent = '';
-
-            const outerHtml = `
-                <ul class="board-container">
-                    ${boardList}
-                </ul>
-            `;
-
-            this._appendToElement(document.querySelector('#boards'), outerHtml);
-
         },
         showCards: function (cards) {
             // shows the cards of a board
             // it adds necessary event listeners also
+            const cardTemplate = document.querySelector('#card-template');
+            const clone = document.importNode(cardTemplate.content, true);
+            clone.querySelector('.card-title').textContent = cards[0].title;
+            document.querySelector('.done').appendChild(clone);
+
         },
 // here comes more features
     };
