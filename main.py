@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, redirect
 from util import json_response
 
 import data_handler, persistence
@@ -57,10 +57,11 @@ def rename_card(card_id):
         return persistence.rename_card(new_title, card_id)
 
 
-@app.route('/add-card-to-board/<board_id>', methods=['POST'])
+@app.route('/add-card-to-board/<board_id>', methods=['GET', 'POST'])
 @json_response
 def add_new_card_to_board(board_id):
-    pass
+    new_card = request.get_json('body')
+    persistence.add_card(board_id, new_card)
 
 
 def main():

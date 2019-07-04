@@ -78,3 +78,10 @@ def rename_card(cursor, new_title, card_id):
                 """
     cursor.execute(sql_query, {'new_title': new_title, 'card_id': card_id})
 
+@database_connection.connection_handler
+def add_card(cursor, board_id, card_title):
+    sql_query = """
+                INSERT INTO cards (title, board_id, status_id)
+                VALUES (%(card_title)s, %(board_id)s, 1)
+                """
+    cursor.execute(sql_query, {'card_title': card_title, 'board_id': board_id})

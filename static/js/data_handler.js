@@ -55,6 +55,12 @@ export let dataHandler = {
         // creates new board, saves it and calls the callback function with its data
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
+        const cardTemplate = document.querySelector('#card-template');
+        const currentBoard = document.querySelector(`#board-${card.board_id}`);
+        const clone = document.importNode(cardTemplate.content, true);
+        clone.querySelector('.card-title').textContent = card.title;
+        clone.querySelector('.card-title').dataset.cardId = card.id;
+
 
     },
     getAllCards: function (callback) {
