@@ -45,7 +45,7 @@ export let dom = {
             dom.loadCards(board.id);
 
             //TODO: insert here add button activation!
-            dom.setNewCardButton(board.id)
+            dom.setNewCardButton(board)
         }
     },
 
@@ -79,11 +79,12 @@ export let dom = {
         }
     },
 
-    setNewCardButton: function(board_id) {
-        let addCardButton = document.querySelector(`#board-${board_id}-add-card`);
+    setNewCardButton: function(board) {
+        let addCardButton = document.querySelector(`#board-${board.id}-add-card`);
         let createCardModal = document.querySelector('#create-card-modal');
 
         addCardButton.addEventListener('click', function() {
+            document.querySelector('#create-card-modal .modal-title').textContent = `Add new card to ${board.title}`;
             $("#create-card-modal").modal();
         })
     },
