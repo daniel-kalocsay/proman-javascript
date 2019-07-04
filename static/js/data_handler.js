@@ -68,18 +68,24 @@ export let dataHandler = {
 
     addRenameBoard: function () {
     let boardTitles = document.querySelectorAll('.board-title');
+
     for (let titleText of boardTitles) {
         titleText.addEventListener('click', function () {
+
             const boardId = this.parentNode.parentNode.dataset.boardId;
+            console.log(boardId);
             const titleInput = document.createElement('input');
+
             titleInput.value = titleText.innerHTML;
             titleText.replaceWith(titleInput);
             titleInput.addEventListener('keyup', function () {
+
                 if (event.key === 'Enter') {
                     fetch(`/rename-board/${boardId}`, {
                         method: 'POST',
                         body: JSON.stringify(titleInput.value)
                     }).then(response => console.log(response));
+
                     titleText.innerHTML = titleInput.value;
                     titleInput.replaceWith(titleText);
                 }

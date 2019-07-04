@@ -54,8 +54,13 @@ def rename_board(board_id):
 def rename_card(card_id):
     if request.method == 'POST':
         new_title = request.get_json('body')
-        print(new_title)
         return persistence.rename_card(new_title, card_id)
+
+
+@app.route('/add-card-to-board/<board_id>', methods=['POST'])
+@json_response
+def add_new_card_to_board(board_id):
+    pass
 
 
 def main():
