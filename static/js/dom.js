@@ -38,9 +38,13 @@ export let dom = {
             const boardsTemplate = document.querySelector('#board-template');
             for (let board of boards) {
                 const clone = document.importNode(boardsTemplate.content, true);
+                let newBoard = clone.querySelector('.board');
                 clone.querySelector('.board-title').textContent = board.title;
-                clone.querySelector('.board').setAttribute('id', `board-${board.id}`);
-                clone.querySelector('.board').dataset.boardId = board.id;
+                newBoard.setAttribute('id', `board-${board.id}`);
+                newBoard.dataset.boardId = board.id;
+                newBoard.querySelector('.board-toggle').addEventListener('click', function () {
+                    newBoard.querySelector('.board-columns').classList.toggle('invisible');
+                });
                 document.querySelector('.board-container').appendChild(clone);
                 dom.loadCards(board.id);
             }
@@ -49,9 +53,7 @@ export let dom = {
 
         loadCards: function (board_id) {
             // retrieves boards and makes showBoards called
-            dataHandler.getCardsByBoardId(board_id, function (cards) {
-                dom.showCards(cards);
-            });
+            dataHandler.getCardsByBoardId(board_id, dom.showCards);
         }
         ,
 
