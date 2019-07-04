@@ -2,25 +2,25 @@
 import {dataHandler} from "./data_handler.js";
 
 export let dom = {
-    _appendToElement: function (elementToExtend, textToAppend, prepend = false) {
-        // function to append new DOM elements (represented by a string) to an existing DOM element
-        let fakeDiv = document.createElement('div');
-        fakeDiv.innerHTML = textToAppend.trim();
+        _appendToElement: function (elementToExtend, textToAppend, prepend = false) {
+            // function to append new DOM elements (represented by a string) to an existing DOM element
+            let fakeDiv = document.createElement('div');
+            fakeDiv.innerHTML = textToAppend.trim();
 
-        for (let childNode of fakeDiv.childNodes) {
-            if (prepend) {
-                elementToExtend.prependChild(childNode);
-            } else {
-                elementToExtend.appendChild(childNode);
+            for (let childNode of fakeDiv.childNodes) {
+                if (prepend) {
+                    elementToExtend.prependChild(childNode);
+                } else {
+                    elementToExtend.appendChild(childNode);
+                }
             }
-        }
-        return elementToExtend.lastChild;
-    },
+            return elementToExtend.lastChild;
+        },
 
-    init: function () {
-        // This function should run once, when the page is loaded.
+        init: function () {
+            // This function should run once, when the page is loaded.
 
-    },
+        },
 
     loadBoards: function () {
         // retrieves boards and makes showBoards called
@@ -44,6 +44,11 @@ export let dom = {
         clone.querySelector('.board').dataset.boardId = board.id;
 
         clone.querySelector('.card-add').setAttribute('id', `board-${board.id}-add-card`);
+
+        clone.querySelector('.board-toggle').addEventListener('click', function () {
+            document.querySelector('.board-columns').classList.toggle('invisible');
+        });
+
 
         document.querySelector('.board-container').appendChild(clone);
         dom.loadCards(board.id);

@@ -27,9 +27,8 @@ export let dataHandler = {
 
         // Here we use an arrow function to keep the value of 'this' on dataHandler.
         //    if we would use function(){...} here, the value of 'this' would change.
-        this._api_get('/get-boards', (response) => {
-            this._data = response;
-            callback(response);
+        this._api_get('/get-boards', (boards) => {
+            callback(boards);
         });
     },
     getBoard: function (boardId, callback) {
@@ -43,9 +42,8 @@ export let dataHandler = {
     },
     getCardsByBoardId: function (boardId, callback) {
         // the cards are retrieved and then the callback function is called with the cards
-        this._api_get(`/get-cards/${boardId}`, (response) => {
-              this._data = response;
-              callback(response);
+        this._api_get(`/get-cards/${boardId}`, (cards) => {
+              callback(cards);
           });
 
     },
@@ -99,7 +97,6 @@ export let dataHandler = {
         for (let titleText of cardTitles) {
             titleText.addEventListener('click', function () {
                 const cardId = this.dataset.cardId;
-                console.log(cardId);
                 const titleInput = document.createElement('input');
                 titleInput.value = titleText.innerHTML;
                 titleText.replaceWith(titleInput);
