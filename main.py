@@ -48,6 +48,7 @@ def get_all_cards():
 def rename_board(board_id):
     if request.method == 'POST':
         new_title = request.get_json('body')
+        print(new_title)
         return persistence.rename_board(new_title, board_id)
 
 

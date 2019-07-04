@@ -1,24 +1,6 @@
 // It uses data_handler.js to visualize elements
 import {dataHandler} from "./data_handler.js";
 
-function addEventlisteners() {
-    let boardTitles = document.querySelectorAll('.board-title');
-    for (let title of boardTitles) {
-        title.addEventListener('click', function () {
-            const boardId = this.parentNode.parentNode.id;
-            const titleInput = document.createElement('input');
-            const newTitle = 'Új cím';
-            titleInput.placeholder = title.innerHTML;
-            title.replaceWith(titleInput);
-            fetch(`/rename-board/${boardId[boardId.length-1]}`, {
-                method: 'POST',
-                body: JSON.stringify(newTitle)
-            })
-                .then(response => console.log(response))  // parse the response as JSON
-        })
-    }
-}
-
 export let dom = {
         _appendToElement: function (elementToExtend, textToAppend, prepend = false) {
             // function to append new DOM elements (represented by a string) to an existing DOM element
@@ -44,7 +26,7 @@ export let dom = {
             // retrieves boards and makes showBoards called
             dataHandler.getBoards(function (boards) {
                 dom.showBoards(boards);
-                addEventlisteners();
+                dataHandler.addRenameBoard();
             });
         }
         ,
@@ -58,6 +40,7 @@ export let dom = {
                 const clone = document.importNode(boardsTemplate.content, true);
                 clone.querySelector('.board-title').textContent = board.title;
                 clone.querySelector('.board').setAttribute('id', `board-${board.id}`);
+                clone.querySelector('.board').dataset.boardId = board.id;
                 document.querySelector('.board-container').appendChild(clone);
                 dom.loadCards(board.id);
             }
