@@ -72,7 +72,7 @@ export let dataHandler = {
         titleText.addEventListener('click', function () {
             const boardId = this.parentNode.parentNode.dataset.boardId;
             const titleInput = document.createElement('input');
-            titleInput.placeholder = titleText.innerHTML;
+            titleInput.value = titleText.innerHTML;
             titleText.replaceWith(titleInput);
             titleInput.addEventListener('keyup', function () {
                 if (event.key === 'Enter') {
@@ -86,5 +86,28 @@ export let dataHandler = {
             })
         })
     }
-}
+},
+
+    addRenameCard: function () {
+        const cardTitles = document.querySelectorAll('.card-title');
+        for (let titleText of cardTitles) {
+            titleText.addEventListener('click', function () {
+                const cardId = this.dataset.cardId;
+                console.log(cardId);
+                const titleInput = document.createElement('input');
+                titleInput.value = titleText.innerHTML;
+                titleText.replaceWith(titleInput);
+                titleInput.addEventListener('keyup', function () {
+                    if (event.key === 'Enter') {
+                        fetch(`/rename-card/${cardId}`, {
+                            method: 'POST',
+                            body: JSON.stringify(titleInput.value)
+                        });
+                        titleText.innerHTML = titleInput.value;
+                        titleInput.replaceWith(titleText)
+                    }
+                })
+            })
+        }
+    }
 };

@@ -67,3 +67,13 @@ def rename_board(cursor, new_title, board_id):
                 """
     cursor.execute(sql_query, {'new_title': new_title, 'board_id': board_id})
 
+
+@database_connection.connection_handler
+def rename_card(cursor, new_title, card_id):
+    sql_query = """
+                UPDATE cards
+                SET title = %(new_title)s
+                WHERE id = %(card_id)s
+                """
+    cursor.execute(sql_query, {'new_title': new_title, 'card_id': card_id})
+

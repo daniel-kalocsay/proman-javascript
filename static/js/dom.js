@@ -51,6 +51,7 @@ export let dom = {
             // retrieves boards and makes showBoards called
             dataHandler.getCardsByBoardId(board_id, function (cards) {
                 dom.showCards(cards);
+                dataHandler.addRenameCard()
             });
         }
         ,
@@ -63,6 +64,8 @@ export let dom = {
                 const currentBoard = document.querySelector(`#board-${card.board_id}`);
                 const clone = document.importNode(cardTemplate.content, true);
                 clone.querySelector('.card-title').textContent = card.title;
+                clone.querySelector('.card-title').dataset.cardId = card.id;
+
                 if (card.status_id === 1) {
                     currentBoard.querySelector('.new').appendChild(clone);
                 } else if (card.status_id === 2) {
