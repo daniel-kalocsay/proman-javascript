@@ -142,3 +142,7 @@ section.board{
     font-weight: 100;
     font-size: 0.9em;
 }
+
+.invisible {
+    display: none;
+}

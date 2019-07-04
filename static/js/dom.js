@@ -41,6 +41,9 @@ export let dom = {
                 clone.querySelector('.board-title').textContent = board.title;
                 clone.querySelector('.board').setAttribute('id', `board-${board.id}`);
                 clone.querySelector('.board').dataset.boardId = board.id;
+                clone.querySelector('.board-toggle').addEventListener('click', function(){
+                    document.querySelector('.board-columns').classList.toggle('invisible');
+                });
                 document.querySelector('.board-container').appendChild(clone);
                 dom.loadCards(board.id);
             }

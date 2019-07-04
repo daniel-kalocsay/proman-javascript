@@ -91,7 +91,6 @@ export let dataHandler = {
         for (let titleText of cardTitles) {
             titleText.addEventListener('click', function () {
                 const cardId = this.dataset.cardId;
-                console.log(cardId);
                 const titleInput = document.createElement('input');
                 titleInput.value = titleText.innerHTML;
                 titleText.replaceWith(titleInput);

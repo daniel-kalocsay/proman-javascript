@@ -53,6 +53,7 @@ def get_cards_by_board_id(cursor, board_id):
     sql_query = """
                 SELECT * FROM cards
                 WHERE board_id = %(board_id)s
+                ORDER BY id;
                 """
     cursor.execute(sql_query, {'board_id': board_id})
     return cursor.fetchall()
