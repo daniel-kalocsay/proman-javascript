@@ -57,7 +57,8 @@ export let dataHandler = {
         // creates new board, saves it and calls the callback function with its data
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
-        // creates new card, saves it and calls the callback function with its data
+        let newCardButtons = Array.from(document.querySelectorAll('.board-add'))
+
     },
     getAllCards: function (callback) {
           this._api_get('/get-all-cards', (response) => {
