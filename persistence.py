@@ -23,7 +23,8 @@ def get_cards(force=False):
 @database_connection.connection_handler
 def get_data_from_table(cursor, table_name):
     sql_query = """
-                SELECT * FROM {table_name};
+                SELECT * FROM {table_name}
+                ORDER BY id
                 """
 
     sql_query = sql.SQL(sql_query).format(table_name=sql.Identifier(table_name))
@@ -56,4 +57,23 @@ def get_cards_by_board_id(cursor, board_id):
     cursor.execute(sql_query, {'board_id': board_id})
     return cursor.fetchall()
 
+
+@database_connection.connection_handler
+def rename_board(cursor, new_title, board_id):
+    sql_query = """
+                UPDATE boards
+                SET title = %(new_title)s
+                WHERE id = %(board_id)s
+                """
+    cursor.execute(sql_query, {'new_title': new_title, 'board_id': board_id})
+
+
+@database_connection.connection_handler
+def rename_card(cursor, new_title, card_id):
+    sql_query = """
+                UPDATE cards
+                SET title = %(new_title)s
+                WHERE id = %(card_id)s
+                """
+    cursor.execute(sql_query, {'new_title': new_title, 'card_id': card_id})
 

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from util import json_response
 
 import data_handler, persistence
@@ -41,6 +41,21 @@ def get_all_cards():
     """all the cards"""
 
     return persistence.get_all_cards()
+
+
+@app.route("/rename-board/<int:board_id>", methods=['POST', 'GET'])
+def rename_board(board_id):
+    if request.method == 'POST':
+        new_title = request.get_json('body')
+        return persistence.rename_board(new_title, board_id)
+
+
+@app.route("/rename-card/<int:card_id>", methods=['POST', 'GET'])
+def rename_card(card_id):
+    if request.method == 'POST':
+        new_title = request.get_json('body')
+        print(new_title)
+        return persistence.rename_card(new_title, card_id)
 
 
 def main():

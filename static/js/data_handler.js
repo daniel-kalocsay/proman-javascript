@@ -64,6 +64,50 @@ export let dataHandler = {
               this._data = response;
               callback(response);
           });
+    },
+
+    addRenameBoard: function () {
+    let boardTitles = document.querySelectorAll('.board-title');
+    for (let titleText of boardTitles) {
+        titleText.addEventListener('click', function () {
+            const boardId = this.parentNode.parentNode.dataset.boardId;
+            const titleInput = document.createElement('input');
+            titleInput.value = titleText.innerHTML;
+            titleText.replaceWith(titleInput);
+            titleInput.addEventListener('keyup', function () {
+                if (event.key === 'Enter') {
+                    fetch(`/rename-board/${boardId}`, {
+                        method: 'POST',
+                        body: JSON.stringify(titleInput.value)
+                    }).then(response => console.log(response));
+                    titleText.innerHTML = titleInput.value;
+                    titleInput.replaceWith(titleText);
+                }
+            })
+        })
     }
-    // here comes more features
+},
+
+    addRenameCard: function () {
+        const cardTitles = document.querySelectorAll('.card-title');
+        for (let titleText of cardTitles) {
+            titleText.addEventListener('click', function () {
+                const cardId = this.dataset.cardId;
+                console.log(cardId);
+                const titleInput = document.createElement('input');
+                titleInput.value = titleText.innerHTML;
+                titleText.replaceWith(titleInput);
+                titleInput.addEventListener('keyup', function () {
+                    if (event.key === 'Enter') {
+                        fetch(`/rename-card/${cardId}`, {
+                            method: 'POST',
+                            body: JSON.stringify(titleInput.value)
+                        });
+                        titleText.innerHTML = titleInput.value;
+                        titleInput.replaceWith(titleText)
+                    }
+                })
+            })
+        }
+    }
 };
