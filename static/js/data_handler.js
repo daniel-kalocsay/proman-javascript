@@ -57,7 +57,13 @@ export let dataHandler = {
         // creates new board, saves it and calls the callback function with its data
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
-        let newCardButtons = Array.from(document.querySelectorAll('.board-add'))
+        let newCardButtons = document.querySelectorAll('.board-add');
+        debugger;
+        for (let card of newCardButtons) {
+            card.addEventListener('click', function() {
+                $("#create-card-modal").modal();
+            })
+        }
 
     },
     getAllCards: function (callback) {

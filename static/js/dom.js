@@ -39,8 +39,13 @@ export let dom = {
 
             clone.querySelector('.board-title').textContent = board.title;
             clone.querySelector('.board').setAttribute('id', `board-${board.id}`);
+            clone.querySelector('.card-add').setAttribute('id', `board-${board.id}-add-card`);
+
             document.querySelector('.board-container').appendChild(clone);
             dom.loadCards(board.id);
+
+            //TODO: insert here add button activation!
+            dom.setNewCardButton(board.id)
         }
     },
 
@@ -72,6 +77,16 @@ export let dom = {
                 currentBoard.querySelector('.done').appendChild(clone);
             }
         }
-    }
+    },
+
+    setNewCardButton: function(board_id) {
+        let addCardButton = document.querySelector(`#board-${board_id}-add-card`);
+        let createCardModal = document.querySelector('#create-card-modal');
+
+        addCardButton.addEventListener('click', function() {
+            $("#create-card-modal").modal();
+        })
+    },
+
 };
 

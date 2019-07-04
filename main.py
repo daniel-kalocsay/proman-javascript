@@ -32,7 +32,6 @@ def get_cards_for_board(board_id):
     All cards that belongs to a board
     :param board_id: id of the parent board
     """
-    print(board_id)
     return persistence.get_cards_by_board_id(board_id)
 
 

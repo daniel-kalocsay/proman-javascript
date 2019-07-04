@@ -1,13 +1,25 @@
-<div class="card text-center bg-light" id="create-card-modal">
-    <article class="card-body mx-auto">
-        <h4 class="card-title mt-3 text-center">Create new card</h4>
-        <form action="/reg-success" method="post">
+<div class="modal fade" id="create-card-modal">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create new card</h2>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+    <div class="modal-body">
+        <form method="post">
             <div class="form-group input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    <span class="input-group-text"> <i class="fa fa-credit-card"></i> </span>
                  </div>
-                <input name="card-name" class="form-control" placeholder="New card" type="text">
-            </div> <!-- form-group// -->
+                <input name="card-name" class="form-control" placeholder="Card name" type="text">
+            </div>
         </form>
-    </article>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+        </div>
+    </div>
 </div>
