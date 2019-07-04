@@ -38,13 +38,9 @@ export let dom = {
             const boardsTemplate = document.querySelector('#board-template');
             for (let board of boards) {
                 const clone = document.importNode(boardsTemplate.content, true);
-                let newBoard = clone.querySelector('.board');
                 clone.querySelector('.board-title').textContent = board.title;
-                newBoard.setAttribute('id', `board-${board.id}`);
-                newBoard.dataset.boardId = board.id;
-                newBoard.querySelector('.board-toggle').addEventListener('click', function () {
-                    newBoard.querySelector('.board-columns').classList.toggle('invisible');
-                });
+                clone.querySelector('.board').setAttribute('id', `board-${board.id}`);
+                clone.querySelector('.board').dataset.boardId = board.id;
                 document.querySelector('.board-container').appendChild(clone);
                 dom.loadCards(board.id);
             }
@@ -53,7 +49,10 @@ export let dom = {
 
         loadCards: function (board_id) {
             // retrieves boards and makes showBoards called
-            dataHandler.getCardsByBoardId(board_id, dom.showCards);
+            dataHandler.getCardsByBoardId(board_id, function (cards) {
+                dom.showCards(cards);
+                dataHandler.addRenameCard()
+            });
         }
         ,
 
@@ -65,6 +64,8 @@ export let dom = {
                 const currentBoard = document.querySelector(`#board-${card.board_id}`);
                 const clone = document.importNode(cardTemplate.content, true);
                 clone.querySelector('.card-title').textContent = card.title;
+                clone.querySelector('.card-title').dataset.cardId = card.id;
+
                 if (card.status_id === 1) {
                     currentBoard.querySelector('.new').appendChild(clone);
                 } else if (card.status_id === 2) {
