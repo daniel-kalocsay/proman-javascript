@@ -45,8 +45,9 @@ export let dom = {
 
         clone.querySelector('.card-add').setAttribute('id', `board-${board.id}-add-card`);
 
-        clone.querySelector('.board-toggle').addEventListener('click', function () {
-            document.querySelector('.board-columns').classList.toggle('invisible');
+        let newBoard = clone.querySelector('.board');
+        newBoard.querySelector('.board-toggle').addEventListener('click', function () {
+            newBoard.querySelector('.board-columns').classList.toggle('invisible');
         });
 
 
