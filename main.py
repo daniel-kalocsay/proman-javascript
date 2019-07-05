@@ -61,7 +61,7 @@ def rename_card(card_id):
 @json_response
 def add_new_card_to_board(board_id):
     new_card = request.get_json('body')
-    persistence.add_card(board_id, new_card)
+    return persistence.add_card(board_id, new_card)
 
 
 def main():

@@ -66,27 +66,31 @@ export let dom = {
         });
     },
 
+    showCard: function (card) {
+        const cardTemplate = document.querySelector('#card-template');
+        const currentBoard = document.querySelector(`#board-${card.board_id}`);
+        const clone = document.importNode(cardTemplate.content, true);
+
+        clone.querySelector('.card-title').textContent = card.title;
+        clone.querySelector('.card-title').dataset.cardId = card.id;
+
+        if (card.status_id === 1) {
+            currentBoard.querySelector('.new').appendChild(clone);
+        } else if (card.status_id === 2) {
+            currentBoard.querySelector('.in-progress').appendChild(clone);
+        } else if (card.status_id === 3) {
+            currentBoard.querySelector('.testing').appendChild(clone);
+        } else if (card.status_id === 4) {
+            currentBoard.querySelector('.done').appendChild(clone);
+        }
+    },
+
     showCards: function (cards) {
         // shows the cards of a board
         // it adds necessary event listeners also
-        const cardTemplate = document.querySelector('#card-template');
 
         for (let card of cards) {
-            const currentBoard = document.querySelector(`#board-${card.board_id}`);
-            const clone = document.importNode(cardTemplate.content, true);
-
-            clone.querySelector('.card-title').textContent = card.title;
-            clone.querySelector('.card-title').dataset.cardId = card.id;
-
-            if (card.status_id === 1) {
-                currentBoard.querySelector('.new').appendChild(clone);
-            } else if (card.status_id === 2) {
-                currentBoard.querySelector('.in-progress').appendChild(clone);
-            } else if (card.status_id === 3) {
-                currentBoard.querySelector('.testing').appendChild(clone);
-            } else if (card.status_id === 4) {
-                currentBoard.querySelector('.done').appendChild(clone);
-            }
+            this.showCard(card);
         }
     },
 
@@ -103,10 +107,12 @@ export let dom = {
             const modalSubmitButton = document.querySelector('.send-new-card');
             modalSubmitButton.addEventListener('click', function () {
                 fetch(`/add-card-to-board/${board.id}`, {
-                        method: 'POST',
-                        body: JSON.stringify(modalInput.value)
-                    }).then(response => console.log(response));
-                location.reload()
+                    method: 'POST',
+                    body: JSON.stringify(modalInput.value)
+                })
+                    .then(response => response.json())
+                    .then((card) => dom.showCard(card));
+                // $("#create-card-modal").modal(); // TODO close modal
             })
 
         })

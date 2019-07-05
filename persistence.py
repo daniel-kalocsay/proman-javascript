@@ -83,5 +83,10 @@ def add_card(cursor, board_id, card_title):
     sql_query = """
                 INSERT INTO cards (title, board_id, status_id)
                 VALUES (%(card_title)s, %(board_id)s, 1)
+                RETURNING *
                 """
     cursor.execute(sql_query, {'card_title': card_title, 'board_id': board_id})
+    return cursor.fetchone()
+
+
+

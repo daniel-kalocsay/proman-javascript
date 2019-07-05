@@ -13,8 +13,8 @@ export let dataHandler = {
             method: 'GET',
             credentials: 'same-origin'
         })
-        .then(response => response.json())  // parse the response as JSON
-        .then(json_response => callback(json_response));  // Call the `callback` with the returned object
+            .then(response => response.json())  // parse the response as JSON
+            .then(json_response => callback(json_response));  // Call the `callback` with the returned object
     },
     _api_post: function (url, data, callback) {
         // it is not called from outside
@@ -43,8 +43,8 @@ export let dataHandler = {
     getCardsByBoardId: function (boardId, callback) {
         // the cards are retrieved and then the callback function is called with the cards
         this._api_get(`/get-cards/${boardId}`, (cards) => {
-              callback(cards);
-          });
+            callback(cards);
+        });
 
     },
     getCard: function (cardId, callback) {
@@ -64,39 +64,39 @@ export let dataHandler = {
 
     },
     getAllCards: function (callback) {
-          this._api_get('/get-all-cards', (response) => {
-              this._data = response;
-              callback(response);
-          });
+        this._api_get('/get-all-cards', (response) => {
+            this._data = response;
+            callback(response);
+        });
     },
 
-    addRenameBoard: function () {
-    let boardTitles = document.querySelectorAll('.board-title');
+    addRenameBoard: function (event) {
+        let boardTitles = document.querySelectorAll('.board-title');
 
-    for (let titleText of boardTitles) {
-        titleText.addEventListener('click', function () {
+        for (let titleText of boardTitles) {
+            titleText.addEventListener('click', function () {
 
-            const boardId = this.parentNode.parentNode.dataset.boardId;
-            console.log(boardId);
-            const titleInput = document.createElement('input');
+                const boardId = this.parentNode.parentNode.dataset.boardId;
+                console.log(boardId);
+                const titleInput = document.createElement('input');
 
-            titleInput.value = titleText.innerHTML;
-            titleText.replaceWith(titleInput);
-            titleInput.addEventListener('keyup', function () {
+                titleInput.value = titleText.innerHTML;
+                titleText.replaceWith(titleInput);
+                titleInput.addEventListener('keyup', function () {
 
-                if (event.key === 'Enter') {
-                    fetch(`/rename-board/${boardId}`, {
-                        method: 'POST',
-                        body: JSON.stringify(titleInput.value)
-                    }).then(response => console.log(response));
+                    if (event.key === 'Enter') {
+                        fetch(`/rename-board/${boardId}`, {
+                            method: 'POST',
+                            body: JSON.stringify(titleInput.value)
+                        }).then(response => console.log(response));
 
-                    titleText.innerHTML = titleInput.value;
-                    titleInput.replaceWith(titleText);
-                }
+                        titleText.innerHTML = titleInput.value;
+                        titleInput.replaceWith(titleText);
+                    }
+                })
             })
-        })
-    }
-},
+        }
+    },
 
     addRenameCard: function () {
         const cardTitles = document.querySelectorAll('.card-title');
@@ -106,7 +106,7 @@ export let dataHandler = {
                 const titleInput = document.createElement('input');
                 titleInput.value = titleText.innerHTML;
                 titleText.replaceWith(titleInput);
-                titleInput.addEventListener('keyup', function () {
+                titleInput.addEventListener('keyup', function (event) {
                     if (event.key === 'Enter') {
                         fetch(`/rename-card/${cardId}`, {
                             method: 'POST',
