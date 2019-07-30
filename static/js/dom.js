@@ -55,6 +55,7 @@ export let dom = {
             dom.loadCards(board.id);
 
             dom.setNewCardButton(board)
+            dom.setListenerToAddNewCard(board)
         }
     },
 
@@ -103,18 +104,20 @@ export let dom = {
 
             $("#create-card-modal").modal();
 
-            const modalInput = document.querySelector('.form-control');
-            const modalSubmitButton = document.querySelector('.send-new-card');
-            modalSubmitButton.addEventListener('click', function () {
-                fetch(`/add-card-to-board/${board.id}`, {
-                    method: 'POST',
-                    body: JSON.stringify(modalInput.value)
-                })
-                    .then(response => response.json())
-                    .then((card) => dom.showCard(card));
-                // $("#create-card-modal").modal(); // TODO close modal
-            })
 
+        })
+    },
+    setListenerToAddNewCard: function (board) {
+        const modalInput = document.querySelector('.form-control');
+        const modalSubmitButton = document.querySelector('.send-new-card');
+        modalSubmitButton.addEventListener('click', function () {
+            fetch(`/add-card-to-board/${board.id}`, {
+                method: 'POST',
+                body: JSON.stringify(modalInput.value)
+            })
+                .then(response => response.json())
+                .then((card) => dom.showCard(card));
+            // $("#create-card-modal").modal(); // TODO close modal
         })
     }
 };
