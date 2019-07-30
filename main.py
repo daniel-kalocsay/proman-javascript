@@ -64,6 +64,11 @@ def add_new_card_to_board(board_id):
     return persistence.add_card(board_id, new_card)
 
 
+@app.route('/delete-card/<string:card_id>', methods=['POST'])
+def route_delete_card(card_id):
+    persistence.delete_card_by_id(card_id)
+
+
 def main():
     app.run(debug=True)
 

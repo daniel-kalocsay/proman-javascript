@@ -62,7 +62,8 @@ export let dom = {
     loadCards: function (board_id) {
         // retrieves boards and makes showBoards called
         dataHandler.getCardsByBoardId(board_id, function (cards) {
-            dom.showCards(cards);
+            dom.showCards(cards)
+            dom.setListenerToDeleteCardButtons()
             dataHandler.addRenameCard()
         });
     },
@@ -103,8 +104,6 @@ export let dom = {
             currentCreateCardModal.querySelector('.modal-title').textContent = `Add new card to ${board.title}`;
 
             $("#create-card-modal").modal();
-
-
         })
     },
     setListenerToAddNewCard: function (board) {
@@ -119,6 +118,22 @@ export let dom = {
                 .then((card) => dom.showCard(card));
             // $("#create-card-modal").modal(); // TODO close modal
         })
+    },
+    setListenerToDeleteCardButtons: function() {
+        let deleteCardButtons = document.querySelectorAll('.card-remove');
+        for (let deleteCardButton of deleteCardButtons) {
+            deleteCardButton.addEventListener('click', function() {
+                let cardToDelete = deleteCardButton.parentElement;
+                let idOfCard = deleteCardButton.nextElementSibling.dataset.cardId;
+                cardToDelete.remove();
+                dom.deleteCard(idOfCard)
+            })
+        }
+    },
+    deleteCard: function(cardID) {
+        fetch(`/delete-card/${cardID}`, {
+                method: 'POST'
+            })
     }
 };
 
