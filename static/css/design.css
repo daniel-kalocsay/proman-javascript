@@ -146,3 +146,12 @@ section.board{
 .invisible {
     display: none;
 }
+
+.toolbar {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.board-add {
+    margin: 0 auto;
+}
