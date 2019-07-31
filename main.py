@@ -72,6 +72,16 @@ def route_delete_card(card_id):
     return True
 
 
+@app.route('/add-new-board', methods=['POST'])
+@json_response
+def route_add_new_board():
+    board_title = request.get_json('body')
+    new_board = persistence.add_board(board_title)
+    new_board = [new_board]
+
+    return new_board
+
+
 def main():
     app.run(debug=True)
 

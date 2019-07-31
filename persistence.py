@@ -98,3 +98,14 @@ def delete_card_by_id(cursor, card_id):
                 """
 
     cursor.execute(sql_query, {'card_id': card_id})
+
+
+@database_connection.connection_handler
+def add_board(cursor, board_title):
+    sql_query = """
+                INSERT INTO boards (title)
+                VALUES (%(board_title)s)
+                RETURNING *
+                """
+    cursor.execute(sql_query, {'board_title': board_title})
+    return cursor.fetchone()

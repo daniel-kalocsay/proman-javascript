@@ -40,11 +40,15 @@
 <h1>ProMan</h1>
 
 {% include 'create_card_modal.html' %}
+{% include 'create_board_modal.html' %}
+
+<div class="toolbar">
+    <button class="board-add">Add Board</button>
+</div>
 
 <div class="board-container">
     <!--Boards here-->
 </div>
-
 
 <template id="board-template">
     <section class="board">

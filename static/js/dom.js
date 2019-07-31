@@ -18,7 +18,8 @@ export let dom = {
     },
 
     init: function () {
-        // This function should run once, when the page is loaded.
+        dom.setListenerToAddNewBoardButton();
+        dom.receiveDataFromAddNewBoardModal();
 
     },
 
@@ -52,9 +53,10 @@ export let dom = {
 
 
             document.querySelector('.board-container').appendChild(clone);
+
             dom.loadCards(board.id);
 
-            dom.setNewCardButton(board)
+            dom.setNewCardButton(board);
             dom.setListenerToAddNewCard(board)
         }
     },
@@ -123,7 +125,6 @@ export let dom = {
             })
                 .then(response => response.json())
                 .then((card) => dom.showCard(card));
-            // $("#create-card-modal").modal(); // TODO close modal
         })
     },
     setListenerToDeleteCardButtons: function() {
@@ -144,10 +145,28 @@ export let dom = {
         let card = document.querySelector(`[data-card-id='${cardID}']`).parentElement;
         card.remove()
     },
-    setListenerToDeleteButton(button, idOfCard) {
+    setListenerToDeleteButton: function(button, idOfCard) {
         button.addEventListener('click', function() {
             dom.deleteCardFromDB(idOfCard);
             dom.deleteCardFromDOM(idOfCard)
+        })
+    },
+    setListenerToAddNewBoardButton: function() {
+        document.querySelector('.board-add').addEventListener('click', function() {
+            $("#create-board-modal").modal();
+        })
+    },
+    receiveDataFromAddNewBoardModal: function() {
+        const modalInput = document.querySelector('.new-board-form-control');
+        const modalSubmitButton = document.querySelector('.send-new-board');
+        modalSubmitButton.addEventListener('click', function () {
+            $("#create-board-modal").modal('hide');
+            fetch('/add-new-board', {
+                method: 'POST',
+                body: JSON.stringify(modalInput.value)
+            })
+                .then(response => response.json())
+                .then((board) => dom.showBoards(board));
         })
     }
 };
