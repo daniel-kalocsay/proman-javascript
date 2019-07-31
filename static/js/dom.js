@@ -131,7 +131,7 @@ export let dom = {
         for (let deleteCardButton of deleteCardButtons) {
             deleteCardButton.addEventListener('click', function() {
                 let idOfCard = deleteCardButton.nextElementSibling.dataset.cardId;
-                dom.deleteCard(idOfCard)
+                dom.deleteCardFromDB(idOfCard)
             })
         }
     },
