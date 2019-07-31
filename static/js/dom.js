@@ -62,13 +62,14 @@ export let dom = {
     loadCards: function (board_id) {
         // retrieves boards and makes showBoards called
         dataHandler.getCardsByBoardId(board_id, function (cards) {
-            dom.showCards(cards)
-            dom.setListenerToDeleteCardButtons()
-            dataHandler.addRenameCard()
+            dom.showCards(cards);
+            dom.setListenerToDeleteCardButtons();
+            dataHandler.addRenameCard();
         });
     },
 
     showCard: function (card) {
+
         const cardTemplate = document.querySelector('#card-template');
         const currentBoard = document.querySelector(`#board-${card.board_id}`);
         const clone = document.importNode(cardTemplate.content, true);
@@ -85,6 +86,11 @@ export let dom = {
         } else if (card.status_id === 4) {
             currentBoard.querySelector('.done').appendChild(clone);
         }
+
+        //here we set the eventListener to the new card element
+        //should work for cards that are newly added, but for some reason it doesnt
+        let deleteButton = document.querySelector(`[data-card-id='${card.id}']`).previousElementSibling
+        dom.setListenerToDeleteButton(deleteButton, card.id)
     },
 
     showCards: function (cards) {
@@ -110,6 +116,7 @@ export let dom = {
         const modalInput = document.querySelector('.form-control');
         const modalSubmitButton = document.querySelector('.send-new-card');
         modalSubmitButton.addEventListener('click', function () {
+            $("#create-card-modal").modal('hide');
             fetch(`/add-card-to-board/${board.id}`, {
                 method: 'POST',
                 body: JSON.stringify(modalInput.value)
@@ -123,17 +130,25 @@ export let dom = {
         let deleteCardButtons = document.querySelectorAll('.card-remove');
         for (let deleteCardButton of deleteCardButtons) {
             deleteCardButton.addEventListener('click', function() {
-                let cardToDelete = deleteCardButton.parentElement;
                 let idOfCard = deleteCardButton.nextElementSibling.dataset.cardId;
-                cardToDelete.remove();
                 dom.deleteCard(idOfCard)
             })
         }
     },
-    deleteCard: function(cardID) {
+    deleteCardFromDB: function(cardID) {
         fetch(`/delete-card/${cardID}`, {
                 method: 'POST'
-            })
+            });
+    },
+    deleteCardFromDOM: function(cardID) {
+        let card = document.querySelector(`[data-card-id='${cardID}']`).parentElement;
+        card.remove()
+    },
+    setListenerToDeleteButton(button, idOfCard) {
+        button.addEventListener('click', function() {
+            dom.deleteCardFromDB(idOfCard);
+            dom.deleteCardFromDOM(idOfCard)
+        })
     }
 };
 
