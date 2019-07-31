@@ -89,4 +89,12 @@ def add_card(cursor, board_id, card_title):
     return cursor.fetchone()
 
 
+@database_connection.connection_handler
+def delete_card_by_id(cursor, card_id):
+    sql_query = """
+                DELETE 
+                from cards
+                where id = %(card_id)s
+                """
 
+    cursor.execute(sql_query, {'card_id': card_id})
