@@ -155,3 +155,7 @@ section.board{
 .board-add {
     margin: 0 auto;
 }
+
+.toolbar {
+    margin-right: 140px;
+}

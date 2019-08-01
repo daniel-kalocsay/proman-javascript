@@ -72,6 +72,14 @@ def route_delete_card(card_id):
     return True
 
 
+@app.route('/delete-board/<string:board_id>', methods=['POST'])
+@json_response
+def route_delete_board(board_id):
+    persistence.delete_board_by_id(board_id)
+
+    return True
+
+
 @app.route('/add-new-board', methods=['POST'])
 @json_response
 def route_add_new_board():

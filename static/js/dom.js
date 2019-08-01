@@ -29,6 +29,7 @@ export let dom = {
             dom.showBoards(boards);
             dataHandler.addRenameBoard();
             dom.setDragula();
+            dom.setListenerToDeleteBoardButtons()
         });
     },
 
@@ -56,8 +57,9 @@ export let dom = {
             document.querySelector('.board-container').appendChild(clone);
             dom.loadCards(board.id);
 
-            dom.setNewCardButton(board)
-            dom.setListenerToAddNewCard(board)
+            dom.setNewCardButton(board);
+            dom.setListenerToAddNewCard(board);
+            dom.setListenerToDeleteBoardButtons()
         }
     },
 
@@ -135,6 +137,25 @@ export let dom = {
                 dom.deleteCardFromDB(idOfCard)
             })
         }
+    },
+    setListenerToDeleteBoardButtons: function() {
+        let deleteBoardButtons = document.querySelectorAll('.board-remove');
+        for (let deleteBoardButton of deleteBoardButtons) {
+            deleteBoardButton.addEventListener('click', function() {
+                let boardId = this.parentNode.parentNode.dataset.boardId;
+                dom.deleteBoardFromDOM(boardId);
+                dom.deleteBoardFromDB(boardId)
+            })
+        }
+    },
+    deleteBoardFromDOM: function(boardId) {
+        let board = document.querySelector(`[data-board-id='${boardId}']`);
+        board.remove()
+    },
+    deleteBoardFromDB: function(boardId) {
+        fetch(`/delete-board/${boardId}`, {
+                method: 'POST'
+            });
     },
     deleteCardFromDB: function(cardID) {
         fetch(`/delete-card/${cardID}`, {

@@ -101,6 +101,17 @@ def delete_card_by_id(cursor, card_id):
 
 
 @database_connection.connection_handler
+def delete_board_by_id(cursor, board_id):
+    sql_query = """
+                DELETE 
+                from boards
+                where id = %(board_id)s
+                """
+
+    cursor.execute(sql_query, {'board_id': board_id})
+
+
+@database_connection.connection_handler
 def add_board(cursor, board_title):
     sql_query = """
                 INSERT INTO boards (title)
