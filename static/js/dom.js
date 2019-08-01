@@ -27,6 +27,9 @@ export let dom = {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
+
+            dom.setListenerToAddNewCards();
+
             dataHandler.addRenameBoard();
             dom.setDragula();
             dom.setListenerToDeleteBoardButtons()
@@ -58,7 +61,7 @@ export let dom = {
             dom.loadCards(board.id);
 
             dom.setNewCardButton(board);
-            dom.setListenerToAddNewCard(board);
+
             dom.setListenerToDeleteBoardButtons()
         }
     },
@@ -109,25 +112,32 @@ export let dom = {
     setNewCardButton: function (board) {
         let addCardButton = document.querySelector(`#board-${board.id}-add-card`);
         let currentCreateCardModal = document.querySelector('#create-card-modal');
-
+        let modalInput = document.querySelector('.form-control');
+        
         addCardButton.addEventListener('click', function () {
             currentCreateCardModal.querySelector('.modal-title').textContent = `Add new card to ${board.title}`;
+            currentCreateCardModal.dataset.boardId = board.id;
+            modalInput.value = '';
 
             $("#create-card-modal").modal();
         })
     },
-    setListenerToAddNewCard: function (board) {
-        const modalInput = document.querySelector('.form-control');
-        const modalSubmitButton = document.querySelector('.send-new-card');
-        modalSubmitButton.addEventListener('click', function () {
+    setListenerToAddNewCards: function () {
+        let createCardModal = document.querySelector('#create-card-modal');
+        let modalSubmitButton = document.querySelector('.send-new-card');
+        let modalInput = document.querySelector('.form-control');
+
+        modalSubmitButton.addEventListener('click', function() {
             $("#create-card-modal").modal('hide');
-            fetch(`/add-card-to-board/${board.id}`, {
-                method: 'POST',
-                body: JSON.stringify(modalInput.value)
-            })
-                .then(response => response.json())
-                .then((card) => dom.showCard(card));
+
+            fetch(`/add-card-to-board/${createCardModal.dataset.boardId}`, {
+            method: 'POST',
+            body: JSON.stringify(modalInput.value)
         })
+            .then(response => response.json())
+            .then((card) => dom.showCard(card));
+        });
+
     },
     setListenerToDeleteCardButtons: function() {
         let deleteCardButtons = document.querySelectorAll('.card-remove');
