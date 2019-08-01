@@ -28,6 +28,7 @@ export let dom = {
         dataHandler.getBoards(function (boards) {
             dom.showBoards(boards);
             dataHandler.addRenameBoard();
+            dom.setDragula();
         });
     },
 
@@ -53,10 +54,9 @@ export let dom = {
 
 
             document.querySelector('.board-container').appendChild(clone);
-
             dom.loadCards(board.id);
 
-            dom.setNewCardButton(board);
+            dom.setNewCardButton(board)
             dom.setListenerToAddNewCard(board)
         }
     },
@@ -168,6 +168,17 @@ export let dom = {
                 .then(response => response.json())
                 .then((board) => dom.showBoards(board));
         })
+    },
+    setDragula: function(){
+        const boards = document.querySelectorAll('.board');
+        for (let board of boards){
+            let news = board.querySelector('.new');
+            let inProgs = board.querySelector('.in-progress');
+            let tests = board.querySelector('.testing');
+            let dones = board.querySelector('.done');
+            let allColumns = [news,inProgs,tests,dones];
+            dragula(allColumns);
+        }
     }
 };
 
