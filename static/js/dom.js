@@ -215,7 +215,9 @@ export let dom = {
                 })
                 .on('remove', function (el) {
                     let cardId = el.childNodes[3].dataset.cardId;
-                    console.log(cardId)
+                    fetch(`/delete-card/${cardId}`,{
+                        method: 'POST'
+                    })
                 })
         }
     }
