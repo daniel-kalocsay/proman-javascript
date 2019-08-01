@@ -82,7 +82,7 @@ export let dataHandler = {
 
                 titleInput.value = titleText.innerHTML;
                 titleText.replaceWith(titleInput);
-                titleInput.addEventListener('keyup', function () {
+                titleInput.addEventListener('keyup', function (event) {
 
                     if (event.key === 'Enter') {
                         fetch(`/rename-board/${boardId}`, {
