@@ -83,6 +83,7 @@ export let dom = {
 
         clone.querySelector('.card-title').textContent = card.title;
         clone.querySelector('.card-title').dataset.cardId = card.id;
+        clone.querySelector('.card-title').dataset.statusId = card.status_id;
 
         if (card.status_id === 1) {
             currentBoard.querySelector('.new').appendChild(clone);
@@ -97,7 +98,8 @@ export let dom = {
         //here we set the eventListener to the new card element
         //should work for cards that are newly added, but for some reason it doesnt
         let deleteButton = document.querySelector(`[data-card-id='${card.id}']`).previousElementSibling
-        dom.setListenerToDeleteButton(deleteButton, card.id)
+        dom.setListenerToDeleteButton(deleteButton, card.id);
+        dataHandler.addRenameCard();
     },
 
     showCards: function (cards) {
@@ -139,55 +141,55 @@ export let dom = {
         });
 
     },
-    setListenerToDeleteCardButtons: function() {
+    setListenerToDeleteCardButtons: function () {
         let deleteCardButtons = document.querySelectorAll('.card-remove');
         for (let deleteCardButton of deleteCardButtons) {
-            deleteCardButton.addEventListener('click', function() {
+            deleteCardButton.addEventListener('click', function () {
                 let idOfCard = deleteCardButton.nextElementSibling.dataset.cardId;
                 dom.deleteCardFromDB(idOfCard)
             })
         }
     },
-    setListenerToDeleteBoardButtons: function() {
+    setListenerToDeleteBoardButtons: function () {
         let deleteBoardButtons = document.querySelectorAll('.board-remove');
         for (let deleteBoardButton of deleteBoardButtons) {
-            deleteBoardButton.addEventListener('click', function() {
+            deleteBoardButton.addEventListener('click', function () {
                 let boardId = this.parentNode.parentNode.dataset.boardId;
                 dom.deleteBoardFromDOM(boardId);
                 dom.deleteBoardFromDB(boardId)
             })
         }
     },
-    deleteBoardFromDOM: function(boardId) {
+    deleteBoardFromDOM: function (boardId) {
         let board = document.querySelector(`[data-board-id='${boardId}']`);
         board.remove()
     },
-    deleteBoardFromDB: function(boardId) {
+    deleteBoardFromDB: function (boardId) {
         fetch(`/delete-board/${boardId}`, {
-                method: 'POST'
-            });
+            method: 'POST'
+        });
     },
-    deleteCardFromDB: function(cardID) {
+    deleteCardFromDB: function (cardID) {
         fetch(`/delete-card/${cardID}`, {
-                method: 'POST'
-            });
+            method: 'POST'
+        });
     },
-    deleteCardFromDOM: function(cardID) {
+    deleteCardFromDOM: function (cardID) {
         let card = document.querySelector(`[data-card-id='${cardID}']`).parentElement;
         card.remove()
     },
-    setListenerToDeleteButton: function(button, idOfCard) {
-        button.addEventListener('click', function() {
+    setListenerToDeleteButton: function (button, idOfCard) {
+        button.addEventListener('click', function () {
             dom.deleteCardFromDB(idOfCard);
             dom.deleteCardFromDOM(idOfCard)
         })
     },
-    setListenerToAddNewBoardButton: function() {
-        document.querySelector('.board-add').addEventListener('click', function() {
+    setListenerToAddNewBoardButton: function () {
+        document.querySelector('.board-add').addEventListener('click', function () {
             $("#create-board-modal").modal();
         })
     },
-    receiveDataFromAddNewBoardModal: function() {
+    receiveDataFromAddNewBoardModal: function () {
         const modalInput = document.querySelector('.new-board-form-control');
         const modalSubmitButton = document.querySelector('.send-new-board');
         modalSubmitButton.addEventListener('click', function () {
@@ -200,15 +202,34 @@ export let dom = {
                 .then((board) => dom.showBoards(board));
         })
     },
-    setDragula: function(){
+    setDragula: function () {
         const boards = document.querySelectorAll('.board');
-        for (let board of boards){
+        for (let board of boards) {
             let news = board.querySelector('.new');
             let inProgs = board.querySelector('.in-progress');
             let tests = board.querySelector('.testing');
             let dones = board.querySelector('.done');
-            let allColumns = [news,inProgs,tests,dones];
-            dragula(allColumns);
+            let allColumns = [news, inProgs, tests, dones];
+            let cardDetails = {};
+            dragula(allColumns, {removeOnSpill: true})
+                .on('drag', function (el) {
+                    let cardId = el.childNodes[3].dataset.cardId;
+                    cardDetails['card-id'] = cardId;
+                })
+                .on('drop', function (target) {
+                    let columnId = target.parentNode.dataset.id;
+                    cardDetails['column-id'] = columnId;
+                    fetch(`/move-card/${cardDetails['card-id']}`, {
+                        method: 'POST',
+                        body: JSON.stringify(cardDetails)
+                    })
+                })
+                .on('remove', function (el) {
+                    let cardId = el.childNodes[3].dataset.cardId;
+                    fetch(`/delete-card/${cardId}`,{
+                        method: 'POST'
+                    })
+                })
         }
     }
 };

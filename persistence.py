@@ -120,3 +120,13 @@ def add_board(cursor, board_title):
                 """
     cursor.execute(sql_query, {'board_title': board_title})
     return cursor.fetchone()
+
+
+@database_connection.connection_handler
+def move_card(cursor, card_id, status_id):
+    sql_query = """
+                UPDATE cards
+                SET status_id = %(status_id)s
+                WHERE id = %(card_id)s
+                """
+    cursor.execute(sql_query, {'status_id': status_id, 'card_id': card_id})

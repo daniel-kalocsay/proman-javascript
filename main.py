@@ -90,6 +90,16 @@ def route_add_new_board():
     return new_board
 
 
+@app.route('/move-card/<int:card_id>', methods=['POST'])
+@json_response
+def move_card(card_id):
+    card_details = request.get_json('body')
+    card_id = card_details['card-id']
+    status_id = card_details['column-id']
+    persistence.move_card(card_id, status_id)
+
+
+
 def main():
     app.run(debug=True)
 
