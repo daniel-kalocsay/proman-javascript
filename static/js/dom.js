@@ -54,6 +54,7 @@ export let dom = {
             let newBoard = clone.querySelector('.board');
             newBoard.querySelector('.board-toggle').addEventListener('click', function () {
                 newBoard.querySelector('.board-columns').classList.toggle('invisible');
+                newBoard.querySelector('.board-columns').classList.toggle('visible');
             });
 
 
