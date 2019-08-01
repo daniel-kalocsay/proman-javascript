@@ -95,7 +95,8 @@ export let dom = {
         //here we set the eventListener to the new card element
         //should work for cards that are newly added, but for some reason it doesnt
         let deleteButton = document.querySelector(`[data-card-id='${card.id}']`).previousElementSibling
-        dom.setListenerToDeleteButton(deleteButton, card.id)
+        dom.setListenerToDeleteButton(deleteButton, card.id);
+        dataHandler.addRenameCard();
     },
 
     showCards: function (cards) {
